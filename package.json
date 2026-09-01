@@ -1,0 +1,27 @@
+{
+  "name": "pdf-inspector-extension",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:e2e": "npm run build && playwright test"
+  },
+  "dependencies": {
+    "@codemirror/lang-markdown": "^6.5.2",
+    "@codemirror/state": "^6.7.2",
+    "@firecrawl/pdf-inspector-wasm": "^1.17.0",
+    "codemirror": "^6.0.2",
+    "dompurify": "^3.4.14",
+    "markdown-it": "^15.0.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "jsdom": "^30.0.1",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  }
+}

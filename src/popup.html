@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-content">
+        <div class="header-left">
+          <h1 class="title">PDF Inspector</h1>
+          <p class="subtitle" data-i18n="app.subtitle">Smart PDF document parser</p>
+        </div>
+        <div class="header-actions">
+          <label class="language-control">
+            <select id="language-select" data-i18n-aria-label="language.label">
+              <option value="zh-CN">简体中文</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+        <a href="https://github.com/dennis-zhao-dev/pdf-inspector-extension" target="_blank" class="header-link" title="GitHub" aria-label="GitHub">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+        </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="upload-section">
+        <div class="upload-tabs">
+          <button class="tab-btn active" data-tab="file" data-i18n="tab.file">Local file</button>
+          <button class="tab-btn" data-tab="url" data-i18n="tab.url">URL link</button>
+        </div>
+        
+        <div class="tab-content" id="tab-file">
+          <label for="pdf-file" class="file-label">
+            <div class="file-input-wrapper">
+              <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <span class="file-text" data-i18n="file.choose">Choose PDF file</span>
+            </div>
+            <input id="pdf-file" type="file" accept="application/pdf">
+          </label>
+        </div>
+        
+        <div class="tab-content" id="tab-url" style="display: none;">
+          <div class="url-input-group">
+            <input id="pdf-url" type="url" class="url-input" placeholder="https://example.com/document.pdf" data-i18n-placeholder="url.placeholder">
+            <button id="load-url-btn" class="btn btn-primary" data-i18n="url.load">Load PDF</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-section">
+        <p id="status" class="status" hidden></p>
+      </div>
+
+      <div class="output-section">
+        <div class="output-heading">
+          <span id="output-label" class="output-label" data-i18n="output.label">Extracted result</span>
+          <div class="view-tabs" role="tablist" aria-label="Result view" data-i18n-aria-label="view.label">
+            <button id="edit-tab" class="view-tab" type="button" role="tab" aria-selected="true" aria-controls="editor-panel" data-i18n="view.edit">Edit</button>
+            <button id="preview-tab" class="view-tab" type="button" role="tab" aria-selected="false" aria-controls="preview-panel" data-i18n="view.preview">Preview</button>
+          </div>
+        </div>
+        <div id="format-toolbar" class="format-toolbar" role="toolbar" aria-label="Markdown formatting tools" data-i18n-aria-label="toolbar.label">
+          <button type="button" data-format="heading" aria-label="Heading" data-i18n-aria-label="format.heading">H</button>
+          <button type="button" data-format="bold" aria-label="Bold" data-i18n-aria-label="format.bold"><strong>B</strong></button>
+          <button type="button" data-format="italic" aria-label="Italic" data-i18n-aria-label="format.italic"><em>I</em></button>
+          <button type="button" data-format="link" aria-label="Link" data-i18n-aria-label="format.link"><span data-i18n="format.link">Link</span></button>
+          <button type="button" data-format="ordered-list" aria-label="Ordered list" data-i18n-aria-label="format.orderedList">1.</button>
+          <button type="button" data-format="unordered-list" aria-label="Unordered list" data-i18n-aria-label="format.unorderedList">•</button>
+          <button type="button" data-format="quote" aria-label="Quote" data-i18n-aria-label="format.quote">❯</button>
+          <button type="button" data-format="code" aria-label="Code" data-i18n-aria-label="format.code">&lt;/&gt;</button>
+        </div>
+        <div id="editor-panel" class="editor-panel" role="tabpanel" aria-labelledby="edit-tab">
+          <div id="output-editor" class="output-editor" aria-labelledby="output-label"></div>
+        </div>
+        <div id="preview-panel" class="preview-panel" role="tabpanel" aria-labelledby="preview-tab" aria-label="Markdown preview" data-i18n-aria-label="preview.label" hidden></div>
+      </div>
+
+      <div class="action-buttons">
+        <button id="copy-btn" class="btn btn-secondary" title="Copy to clipboard" data-i18n-title="action.copyTitle" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+          </svg>
+          <span id="copy-label" data-i18n="action.copy">Copy</span>
+        </button>
+        <button id="download-btn" class="btn btn-secondary" title="Download as a file" data-i18n-title="action.downloadTitle" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span data-i18n="action.download">Download</span>
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="./popup.js"></script>
+</body>
+</html>
